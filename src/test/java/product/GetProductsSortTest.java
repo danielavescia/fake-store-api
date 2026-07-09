@@ -49,4 +49,3 @@ public class GetProductsSortTest extends BaseTest{
         assertEquals(ids, idsSortedDesc, "A lista de produtos não está ordenada por id de forma " + orderDescription);
     }
 }
-
