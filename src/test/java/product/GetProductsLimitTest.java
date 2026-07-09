@@ -1,6 +1,7 @@
 package product;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import java.util.List;
 
@@ -24,14 +25,18 @@ public class GetProductsLimitTest extends BaseTest {
 
     private final ProductClient productClient = new ProductClient();
 
-
     @Test(description = "Deve retornar quantidade de produtos conforme o limite especificado", dataProvider = "validParamLimits", 
     dataProviderClass = ProductDataProvider.class)
     @Severity(SeverityLevel.MINOR)
     void shouldReturnProductsQuantityAccordingToLimit(int limit){
 
        Response response = productClient.getProductsWithLimit(limit);
+       
+       assertEquals(response.getStatusCode(), 200);
+
        List<Product> products = List.of(response.as(Product[].class));
+
+       assertFalse(products.isEmpty());
 
        assertEquals(products.size(), limit, "Quantidade retornada(" + products.size() + ") não corresponde ao limite enviado (" + limit + ")");
     }
