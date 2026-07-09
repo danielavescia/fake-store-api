@@ -21,4 +21,18 @@ public class ProductClient {
                 .extract()
                 .response();
     }
+
+    @Step("Envia requisição para GET /products com limite de produtos")
+    public Response getProductsWithLimit(int limit){
+        return given()
+                .accept("application/json")
+                .queryParam("limit", limit)
+                .log().ifValidationFails()
+            .when()
+                .get(PRODUCT_ENDPOINT)
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
 }
