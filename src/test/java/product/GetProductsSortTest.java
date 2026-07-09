@@ -13,6 +13,7 @@ import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
 import base.BaseTest;
+import dataprovider.ProductDataProvider;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -25,11 +26,12 @@ public class GetProductsSortTest extends BaseTest{
 
     private final ProductClient productClient = new ProductClient();
 
-    @Test(description = "Deve retornar quantidade produtos ordenados decrescente(id)")
+    @Test(description = "Deve retornar quantidade produtos ordenados corretamente(id)", 
+    dataProvider = "sortOrders", dataProviderClass = ProductDataProvider.class)
     @Severity(SeverityLevel.MINOR)
-    void shouldReturnProductsSortedDesc(){
+    void shouldReturnProductsSorted(String sortOrder, Comparator<Integer> comparator, String orderDescription){
 
-        Response response = productClient.getProductsSorted("desc");
+        Response response = productClient.getProductsSorted(sortOrder);
         assertEquals(response.getStatusCode(), 200);
 
         List<Product> products = List.of(response.as(Product[].class));
@@ -41,10 +43,10 @@ public class GetProductsSortTest extends BaseTest{
                             .collect(Collectors.toList());
                             
         List<Integer> idsSortedDesc = ids.stream()
-                                        .sorted(Comparator.reverseOrder())
+                                        .sorted(comparator)
                                         .collect(Collectors.toList());
 
-        assertEquals(ids, idsSortedDesc, "A lista de produtos não está ordenada por id de forma descrente");
+        assertEquals(ids, idsSortedDesc, "A lista de produtos não está ordenada por id de forma " + orderDescription);
     }
 }
 
