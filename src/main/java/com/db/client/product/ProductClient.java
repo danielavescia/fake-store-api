@@ -35,4 +35,18 @@ public class ProductClient {
                 .extract()
                 .response();
     }
+
+    @Step("Envia requisição para GET /products com ordenação de produtos")
+    public Response getProductsSorted(String sort){
+        return given()
+                .accept("application/json")
+                .queryParam("sort", sort)
+                .log().ifValidationFails()
+            .when()
+                .get(PRODUCT_ENDPOINT)
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
 }
