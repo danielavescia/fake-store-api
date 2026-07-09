@@ -1,6 +1,8 @@
 package product;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -65,4 +67,13 @@ public class GetAllProductsTest extends BaseTest{
     public void shouldReturnEachProductWithValidSchema(){
         assertThat(response.asString(), matchesJsonSchemaInClasspath("schemas/products-schema.json"));
     }
+
+    @Test(description = "GET /products deve retornar um array de produtos com Ids únicos")
+    @Severity(SeverityLevel.CRITICAL)
+    public void shouldReturnUniqueIds(){
+       List<Integer> ids = response.jsonPath().getList("id");
+       Set<Integer> uniqueIds = new HashSet<>(ids);
+
+       assertEquals(ids.size(), uniqueIds.size(), "Existem "+ (ids.size()-uniqueIds.size()) + "elemento(s) com id(s) que não são unicos na lista");
+    }  
 }
