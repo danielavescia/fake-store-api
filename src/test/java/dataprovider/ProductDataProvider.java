@@ -1,10 +1,12 @@
 package dataprovider;
 
+import java.util.Comparator;
+
 import org.testng.annotations.DataProvider;
 
 public class ProductDataProvider {
 
-    @DataProvider(name = "validParamLimits" )
+    @DataProvider(name = "validParamLimits")
     public static Object[][] validParamLimits(){
         return new Object[][]{
             {1},
@@ -13,4 +15,11 @@ public class ProductDataProvider {
         };
     }
 
+    @DataProvider(name = "sortOrders")
+    public static Object[][] sortOrders(){
+        return new Object[][]{
+            {"asc", Comparator.<Integer>naturalOrder(), "crescente"},
+            {"desc", Comparator.<Integer>reverseOrder(), "decrescente"}
+        };
+    }
 }
