@@ -8,6 +8,7 @@
     <test name="ProductsAPITests">
         <classes>
             <class name="product.GetAllProductsTest"/>
+            <class name="product.GetProductsLimitTest"/>
         </classes>
     </test>
 </suite>
