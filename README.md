@@ -25,9 +25,38 @@ Status `200` com um array contendo 20 objetos de produto, seguindo o schema obse
 | C01 | Validar status e estrutura básica | • Status `200`<br>• Response é um array<br>• Array não vazio (sempre 20 produtos) | PASS |
 | C02 | Validar schema dos produtos | Para cada item do array:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>• `rating.rate`: Float<br>• `rating.count`: Integer | PASS |
 | C03 | Validar unicidade de IDs | Extrair todos os `id` e garantir que não há duplicatas na listagem | PASS |
-| C04 | Validar headers da resposta | • `Content-Type: application/json` (A) <br>• Verificar vazamento de dados sensíveis nos headers (B)<br>•  | A- PASS B- FAIL +  Documentado no Relatório|
-| C05 | Validar parâmetro `limit` | • Retorno deve ser igual ao valor de `limit` enviado<br>• Limites válidos: `1` a `20`(A) <br>• Limites inválidos: `0`, `-1`, `abc` (B) | A - PASS + B - PASS + Documentado no Relatório|
+| C04 | Validar headers da resposta | • `Content-Type: application/json` (A) <br>• Verificar vazamento de dados sensíveis nos headers (B)<br>•  | <br>A- PASS<br> <br>B- FAIL +  Documentado no Relatório<br>|
+| C05 | Validar parâmetro `limit` | • Retorno deve ser igual ao valor de `limit` enviado<br>• Limites válidos: `1` a `20`(A) <br> <br>• Limites inválidos: `0`, `-1`, `abc` (B) | A - PASS + B - PASS + Documentado no Relatório<br>|
 | C06 | Validar ordenação (`sort=asc`/`desc`) | Validar se a resposta está ordenada por `id` conforme o parâmetro enviado | PASS |
+
+---
+
+## GET /products/{id}
+**Endpoint:** `https://fakestoreapi.com/products`
+
+### Resposta esperada
+Status `200` com objeto de id equivalente ao solicitado contendo no body o produto encontrado, seguindo o schema observado:
+
+- `id`: Integer
+- `title`: String
+- `price`: Float
+- `description`: String
+- `category`: String
+- `image`: String (URI)
+- `rating`: Object
+  - `rate`: Float
+  - `count`: Integer
+
+---
+
+## Cenários de Teste
+| ID | Cenário | Validações | Status |
+|----|---------|-----------|--------|
+| C07 | Id existente retorna produto correto | • Status `200`<br>• Response body com objeto produto <br>| - |
+| C08 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>• `rating.rate`: Float<br>• `rating.count`: Integer | - |
+| C09 | Id retornado no body é igual ao ID solicitado |`id` do response é igual ao `id` da requisição | - |
+| C10 |Id inválido | • 400 - Bad Request <br>• Id inválidos: `abc`, `-1`, ` 1`, ` %02`  |-|
+| C11 | Id excede limite de Integer | <br>• Entrada: `99999999999`<br><br>• 400 - Bad Request <br> | - |
 
 ---
 
