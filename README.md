@@ -60,7 +60,8 @@ A API **não trata valores inválidos de `limit` com status code apropriado (`40
 
 O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powered-By: Express`, expondo publicamente a tecnologia utilizada no backend (Express). Essa prática é desencorajada por boas práticas de segurança (OWASP), pois facilita a um atacante direcionar ataques específicos para vulnerabilidades conhecidas da stack identificada.
 
+![Teste do header falhando devido a exposição relatada no header](image.png)
+
 | | Documentado | Retorno real |
 |---|---|---|
 | GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
-![Teste do header falhando devido a exposição relatada no header](image.png)
