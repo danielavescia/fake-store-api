@@ -11,6 +11,8 @@
             <class name="product.GetProductsLimitTest"/>
             <class name="product.GetProductsSortTest"/>
             <class name="product.GetProductsLimitEdgeCasesTest"/>
+            <class name="product.GetProductByIdTest"/>
+            <class name="product.GetProductByIdEdgeCasesTest"/>
         </classes>
     </test>
 </suite>
