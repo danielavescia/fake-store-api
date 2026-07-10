@@ -1,5 +1,20 @@
 package product;
 
+import java.util.List;
+
+import org.testng.annotations.Test;
+
+import com.db.client.product.ProductClient;
+import com.db.model.Product;
+
+import dataprovider.ProductDataProvider;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.restassured.response.Response;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+
 /** 
  * Testes para avaliar o comportamento da API para valores inválidos do query param 'limit'
  * A API não realiza validação de tipo nesses casos
@@ -11,4 +26,21 @@ package product;
 
 public class GetProductsLimitEdgeCasesTest {
 
+    private final ProductClient productClient = new ProductClient();
+
+    @Test(description = "Comportamento atual: API não valida limit inválido", dataProvider = "invalidParamsLimit", 
+    dataProviderClass = ProductDataProvider.class)
+    @Severity(SeverityLevel.MINOR)
+    void shouldReturnBadRequestWhenInvalidQueryParams(String limit, int expectedCount){
+
+       Response response = productClient.getProductsWithLimit(limit);
+       
+       assertEquals(response.getStatusCode(), 200);
+
+       List<Product> products = List.of(response.as(Product[].class));
+
+       assertFalse(products.isEmpty());
+
+       assertEquals(products.size(), expectedCount, "Quantidade retornada(" + products.size() + ") não corresponde ao esperado (" + expectedCount + ")");
+    }
 }

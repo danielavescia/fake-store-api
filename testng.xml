@@ -10,6 +10,7 @@
             <class name="product.GetAllProductsTest"/>
             <class name="product.GetProductsLimitTest"/>
             <class name="product.GetProductsSortTest"/>
+            <class name="product.GetProductsLimitEdgeCasesTest"/>
         </classes>
     </test>
 </suite>
