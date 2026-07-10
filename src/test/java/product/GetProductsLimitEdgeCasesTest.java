@@ -8,8 +8,10 @@ import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
 import dataprovider.ProductDataProvider;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
@@ -24,7 +26,8 @@ import static org.testng.Assert.assertFalse;
  * limit=abc - retorna status code 200 e array com 20 produtos
  * logo, os testes só capturam o comportamento observado já que não existe nada documentado
 **/
-
+@Feature("Produtos")
+@Story("Listar Quantidade Limite de Produtos Especificado na Requisição")
 public class GetProductsLimitEdgeCasesTest {
 
     private final ProductClient productClient = new ProductClient();
