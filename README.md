@@ -56,7 +56,7 @@ A API **não trata valores inválidos de `limit` com status code apropriado (`40
 | `limit=-1` | 200 | 19 | Valor negativo aplicado literalmente (comportamento tipo `slice(0, -1)`) |
 | `limit=abc` | 200 | 20 | Parâmetro não numérico ignorado — retorna valor padrão |
 
-## Vazamento de informação via header X-Powered-By
+### Vazamento de informação via header X-Powered-By
 
 O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powered-By: Express`, expondo publicamente a tecnologia utilizada no backend (Express). Essa prática é desencorajada por boas práticas de segurança (OWASP), pois facilita a um atacante direcionar ataques específicos para vulnerabilidades conhecidas da stack identificada.
 
