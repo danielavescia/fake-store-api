@@ -49,4 +49,18 @@ public class ProductClient {
                 .extract()
                 .response();
     }
+
+    @Step("Envia requisição para GET /products/{id}")
+    public Response getProductById(String id){
+        return given()
+                .accept("application/json")
+                .pathParam("id", id)
+                .log().ifValidationFails()
+            .when()
+                .get(PRODUCT_ENDPOINT + "/{id}")
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
 }
