@@ -23,7 +23,7 @@ public class ProductClient {
     }
 
     @Step("Envia requisição para GET /products com limite de produtos")
-    public Response getProductsWithLimit(int limit){
+    public Response getProductsWithLimit(String limit){
         return given()
                 .accept("application/json")
                 .queryParam("limit", limit)

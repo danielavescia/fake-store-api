@@ -9,9 +9,9 @@ public class ProductDataProvider {
     @DataProvider(name = "validParamLimits")
     public static Object[][] validParamLimits(){
         return new Object[][]{
-            {1},
-            {10},
-            {19}
+            {"1"},
+            {"10"},
+            {"19"}
         };
     }
 
@@ -20,6 +20,15 @@ public class ProductDataProvider {
         return new Object[][]{
             {"asc", Comparator.<Integer>naturalOrder(), "crescente"},
             {"desc", Comparator.<Integer>reverseOrder(), "decrescente"}
+        };
+    }
+
+    @DataProvider(name = "invalidParamsLimit")
+    public static Object[][] invalidParamsLimit(){
+        return new Object[][]{
+            {"0", 20},
+            {"-1", 19},
+            {"abc", 20}
         };
     }
 }

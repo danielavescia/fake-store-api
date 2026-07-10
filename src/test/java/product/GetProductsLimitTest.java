@@ -28,7 +28,7 @@ public class GetProductsLimitTest extends BaseTest {
     @Test(description = "Deve retornar quantidade de produtos conforme o limite especificado", dataProvider = "validParamLimits", 
     dataProviderClass = ProductDataProvider.class)
     @Severity(SeverityLevel.MINOR)
-    void shouldReturnProductsQuantityAccordingToLimit(int limit){
+    void shouldReturnProductsQuantityAccordingToLimit(String limit){
 
        Response response = productClient.getProductsWithLimit(limit);
        
@@ -36,8 +36,10 @@ public class GetProductsLimitTest extends BaseTest {
 
        List<Product> products = List.of(response.as(Product[].class));
 
+       int expectedLimit = Integer.parseInt(limit);
+
        assertFalse(products.isEmpty());
 
-       assertEquals(products.size(), limit, "Quantidade retornada(" + products.size() + ") não corresponde ao limite enviado (" + limit + ")");
+       assertEquals(products.size(), expectedLimit, "Quantidade retornada(" + products.size() + ") não corresponde ao limite enviado (" + expectedLimit + ")");
     }
 }
