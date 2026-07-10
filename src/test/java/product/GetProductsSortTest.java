@@ -18,6 +18,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
 @Feature("Produtos")
@@ -26,8 +27,9 @@ public class GetProductsSortTest extends BaseTest{
 
     private final ProductClient productClient = new ProductClient();
 
-    @Test(description = "Deve retornar quantidade produtos ordenados corretamente(id)", 
+    @Test(description = "[C06] - Deve retornar quantidade produtos ordenados corretamente(id)", 
     dataProvider = "sortOrders", dataProviderClass = ProductDataProvider.class)
+    @Tag("C06")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnProductsSorted(String sortOrder, Comparator<Integer> comparator, String orderDescription){
 

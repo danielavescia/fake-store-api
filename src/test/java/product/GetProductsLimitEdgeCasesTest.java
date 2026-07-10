@@ -10,6 +10,7 @@ import com.db.model.Product;
 import dataprovider.ProductDataProvider;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
 import static org.testng.Assert.assertEquals;
@@ -28,8 +29,9 @@ public class GetProductsLimitEdgeCasesTest {
 
     private final ProductClient productClient = new ProductClient();
 
-    @Test(description = "Comportamento atual: API não valida limit inválido", dataProvider = "invalidParamsLimit", 
+    @Test(description = "[C05] - Comportamento atual: API não valida limit inválido", dataProvider = "invalidParamsLimit", 
     dataProviderClass = ProductDataProvider.class)
+    @Tag("C05")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnBadRequestWhenInvalidQueryParams(String limit, int expectedCount){
 

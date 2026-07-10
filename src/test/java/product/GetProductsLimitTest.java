@@ -16,6 +16,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
 /* Classe que testa o parâmetro limite com entradas válidas */
@@ -25,8 +26,9 @@ public class GetProductsLimitTest extends BaseTest {
 
     private final ProductClient productClient = new ProductClient();
 
-    @Test(description = "Deve retornar quantidade de produtos conforme o limite especificado", dataProvider = "validParamLimits", 
+    @Test(description = "[C05] - Deve retornar quantidade de produtos conforme o limite especificado", dataProvider = "validParamLimits", 
     dataProviderClass = ProductDataProvider.class)
+    @Tag("C05")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnProductsQuantityAccordingToLimit(String limit){
 
