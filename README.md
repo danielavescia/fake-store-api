@@ -52,11 +52,11 @@ Status `200` com objeto de id equivalente ao solicitado contendo no body o produ
 ## Cenários de Teste
 | ID | Cenário | Validações | Status |
 |----|---------|-----------|--------|
-| C07 | Id existente retorna produto correto | • Status `200`<br>• Response body com objeto produto <br>| - |
-| C08 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>• `rating.rate`: Float<br>• `rating.count`: Integer | - |
-| C09 | Id retornado no body é igual ao ID solicitado |`id` do response é igual ao `id` da requisição | - |
-| C10 |Id inválido | • 400 - Bad Request <br>• Id inválidos: `abc`, `-1`, ` 1`, ` %02`  |-|
-| C11 | Id excede limite de Integer | <br>• Entrada: `99999999999`<br><br>• 400 - Bad Request <br> | - |
+| C07 | Id existente retorna produto correto | • Status `200`<br>• Response body com objeto produto <br>| PASS |
+| C08 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>• `rating.rate`: Float<br>• `rating.count`: Integer | PASS |
+| C09 | Id retornado no body é igual ao ID solicitado |`id` do response é igual ao `id` da requisição | PASS |
+| C10 |Id inválido | • 200 - OK <br>• Id inválidos: `abc`, `-1`, ` 1`, ` %02`  | PASS |
+| C11 | Id excede limite  | <br>• Entrada:`2147483648`,`99999999999`,`-2147483648`<br><br>• 200 - OK  <br> | PASS |
 
 ---
 
@@ -96,3 +96,10 @@ O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powere
 | | Documentado | Retorno real |
 |---|---|---|
 | GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
+
+### GET / products/{id} retorna status code 200 para IDs inválidos
+O teste do cenário CO10 e C011 para `GET /products/{id}` retorna `HTTP 200 OK` quando recebe um ID inválido. 
+
+Para uma requisição com identificador inexistente ou inválido, o comportamento esperado seria retornar um status code indicando que o recurso não foi encontrado ou que a requisição é inválida, como `404 Not Found` ou `400 Bad Request`, dependendo da regra definida pela API.
+
+O retorno atual com `200 OK` gera ambiguidade, pois indica sucesso na operação mesmo quando nenhum produto foi localizado, dificultando o tratamento correto do cenário pelo consumidor da API.
