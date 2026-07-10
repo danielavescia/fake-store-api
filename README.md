@@ -63,3 +63,4 @@ O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powere
 | | Documentado | Retorno real |
 |---|---|---|
 | GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
+![Teste do header falhando devido a exposição relatada no header](image.png)
