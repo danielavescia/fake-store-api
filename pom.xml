@@ -61,6 +61,12 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
@@ -69,7 +75,7 @@
             <plugin> 
                 <artifactId>maven-compiler-plugin</artifactId> 
                 <version>3.11.0</version> 
-                <configuration> 
+                <configuration>
                     <source>${maven.compiler.source}</source> 
                     <target>${maven.compiler.target}</target> 
                 </configuration> 
