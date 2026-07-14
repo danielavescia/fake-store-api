@@ -48,15 +48,33 @@ Status `200` com objeto de id equivalente ao solicitado contendo no body o produ
   - `count`: Integer
 
 ---
+## POST /products
+**Endpoint:** `https://fakestoreapi.com/products`
+
+### Resposta esperada
+Status `201` contendo no body o produto equivalente ao criado, seguindo o schema observado:
+
+- `id`: Integer
+- `title`: String
+- `price`: Float
+- `description`: String
+- `category`: String
+- `image`: String (URI)
+- `rating`: Object
+  - `rate`: Float
+  - `count`: Integer
 
 ## Cenários de Teste
 | ID | Cenário | Validações | Status |
 |----|---------|-----------|--------|
-| C07 | Id existente retorna produto correto | • Status `200`<br>• Response body com objeto produto <br>| PASS |
-| C08 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>• `rating.rate`: Float<br>• `rating.count`: Integer | PASS |
-| C09 | Id retornado no body é igual ao ID solicitado |`id` do response é igual ao `id` da requisição | PASS |
-| C10 |Id inválido | • 200 - OK <br>• Id inválidos: `abc`, `-1`, ` 1`, ` %02`  | PASS |
-| C11 | Id excede limite  | <br>• Entrada:`2147483648`,`99999999999`,`-2147483648`<br><br>• 200 - OK  <br> | PASS |
+| C12 | Produto criado com sucesso  | • Status `200`<br>• Response body com objeto produto igual ao enviado<br>| - |
+| C13 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>• `rating.rate`: Float<br>• `rating.count`: Integer | - |
+| C14 | Body do request com payload parcial/vazio|• Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |
+| C15 |Body do request com JSON mal formado | • 400 - Bad request <br>• Retorna HTML de erro | - |
+| C16 |Body do request com tipos de dados incorretos  | <br>• Entrada:`2147483648`,`99999999999`,`-2147483648`<br><br>• 200 - OK  <br> | - |
+| C17 |Body do request testando limite dos campos do payload  | • Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |
+| C18 |Body do request com SQL injection  | • Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |
+
 
 ---
 
@@ -97,9 +115,9 @@ O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powere
 |---|---|---|
 | GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
 
-### GET / products/{id} retorna status code 200 para IDs inválidos
+### GET / products/{id} retorna status code 200 para IDs inválidos e inexistentes
 O teste do cenário CO10 e C011 para `GET /products/{id}` retorna `HTTP 200 OK` quando recebe um ID inválido. 
 
-Para uma requisição com identificador inexistente ou inválido, o comportamento esperado seria retornar um status code indicando que o recurso não foi encontrado ou que a requisição é inválida, como `404 Not Found` ou `400 Bad Request`, dependendo da regra definida pela API.
+Para uma requisição com identificador inexistente ou inválido, o comportamento esperado seria retornar um status code indicando que o recurso não foi encontrado ou que a requisição é inválida, como `404 Not Found`(inexistente = `50`) ou `400 Bad Request`( inválido = `abc`, `-1`, ` 1`), dependendo da regra definida pela API.
 
 O retorno atual com `200 OK` gera ambiguidade, pois indica sucesso na operação mesmo quando nenhum produto foi localizado, dificultando o tratamento correto do cenário pelo consumidor da API.
