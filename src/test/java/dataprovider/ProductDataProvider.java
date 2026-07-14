@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 import org.testng.annotations.DataProvider;
 
+import com.db.model.Product;
+
 public class ProductDataProvider {
 
     @DataProvider(name = "validParamLimits")
@@ -53,6 +55,35 @@ public class ProductDataProvider {
     @DataProvider(name = "invalidOrPartialPayloads")
     public static Object [][] invalidOrPartialPayloads(){
         return new Object [][]{
+            {
+                "payload vazio",
+                Product.builder().build()
+            },
+
+            {
+                "somente title",
+                Product.builder().title("Camisa teste").build()
+            },
+
+            {
+                "somente price",
+                Product.builder().price(12.9f).build()
+            },
+
+            {
+                "somente description",
+                Product.builder().description("Descrição teste").build()
+            },
+
+            {
+                "somente image",
+                Product.builder().image("http://exemplo.com/imagem.jpg").build()
+            },
+
+            {
+                "somente description",
+                Product.builder().category("Vestuário masculino").build()
+            },
         };
     }
 }
