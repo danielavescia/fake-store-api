@@ -1,13 +1,17 @@
 package com.db.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product {
 
     private Integer id;
 
     private String title;
+
+    private Float price;
 
     private String description;
 
@@ -19,6 +23,23 @@ public class Product {
 
     public Product(){
 
+    }
+
+    public Product(String title, Float price, String description, String category, String image, Rating rating) {
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.category = category;
+        this.image = image;
+        this.rating = rating;
+    }
+
+     public Product(String title, Float price, String description, String category, String image) {
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.category = category;
+        this.image = image;
     }
 
     public Integer getId() {
@@ -35,6 +56,14 @@ public class Product {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Float getPrice(){
+        return price;
+    }
+
+    public void setPrice(Float price){
+        this.price = price;
     }
 
     public String getDescription() {

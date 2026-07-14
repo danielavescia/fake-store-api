@@ -9,7 +9,7 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 
 public class BaseTest {
 
-    protected static final String BASE_URL = "https://fakestoreapi.com/";
+    protected static final String BASE_URL = "https://fakestoreapi.com";
 
     @BeforeSuite(alwaysRun = true)
     public void setupBaseUri(){

@@ -2,7 +2,10 @@ package com.db.client.product;
 
 import static io.restassured.RestAssured.given;
 
+import com.db.model.Product;
+
 import io.qameta.allure.Step;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class ProductClient {
@@ -58,6 +61,21 @@ public class ProductClient {
                 .log().ifValidationFails()
             .when()
                 .get(PRODUCT_ENDPOINT + "/{id}")
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
+
+    @Step("Envia requisição para POST /products")
+    public Response createProduct(Product product){
+        return given()
+                .accept("application/json")
+                .contentType(ContentType.JSON)
+                .body(product)
+                .log().ifValidationFails()
+            .when()
+                .post(PRODUCT_ENDPOINT)
             .then()
                 .log().ifValidationFails()
                 .extract()
