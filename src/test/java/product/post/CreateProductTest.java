@@ -29,7 +29,13 @@ public class CreateProductTest extends BaseTest {
 
     private Response response;
 
-    private Product bodyRequest = new Product("Mens Casual Premium Slim Fit Jeans", Float.valueOf("99.99"), "Jeans 100% cotton", "men's clothing", "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png");
+    private Product bodyRequest = Product.builder()
+                    .title("Mens Casual Premium Slim Fit Jeans")
+                    .price(Float.valueOf("99.99")) 
+                    .description("Jeans 100% cotton")
+                    .category("men's clothing")
+                    .image("https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png")
+                    .build();
 
     private Product actualProduct;
 

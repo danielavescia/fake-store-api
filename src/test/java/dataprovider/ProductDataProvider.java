@@ -41,12 +41,18 @@ public class ProductDataProvider {
         };
     }
 
-    @DataProvider(name = "InvalidRangeId")
-    public static Object [][] InvalidRangeId(){
+    @DataProvider(name = "invalidRangeId")
+    public static Object [][] invalidRangeId(){
         return new Object[][]{
             {"2147483648"},
             {"99999999999"},
             {"-2147483649"}
         };
-    }   
+    }  
+    
+    @DataProvider(name = "invalidOrPartialPayloads")
+    public static Object [][] invalidOrPartialPayloads(){
+        return new Object [][]{
+        };
+    }
 }

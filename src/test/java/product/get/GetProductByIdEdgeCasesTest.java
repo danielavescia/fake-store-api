@@ -38,7 +38,7 @@ public class GetProductByIdEdgeCasesTest extends BaseTest {
     }
 
     @Test(description = "[CO11] - GET /products/{id} Comportamento atual: API não trata id fora do range",
-        dataProvider = "InvalidRangeId", dataProviderClass = ProductDataProvider.class)
+        dataProvider = "invalidRangeId", dataProviderClass = ProductDataProvider.class)
     @Tag("C011")
     @Severity(SeverityLevel.NORMAL)
     public void shouldReturnSameId(String invalidId) {
