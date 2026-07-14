@@ -7,12 +7,12 @@
 
     <test name="ProductsAPITests">
         <classes>
-            <class name="product.GetAllProductsTest"/>
-            <class name="product.GetProductsLimitTest"/>
-            <class name="product.GetProductsSortTest"/>
-            <class name="product.GetProductsLimitEdgeCasesTest"/>
-            <class name="product.GetProductByIdTest"/>
-            <class name="product.GetProductByIdEdgeCasesTest"/>
+            <class name="product.get.GetAllProductsTest"/>
+            <class name="product.get.GetProductsLimitTest"/>
+            <class name="product.get.GetProductsSortTest"/>
+            <class name="product.get.GetProductsLimitEdgeCasesTest"/>
+            <class name="product.get.GetProductByIdTest"/>
+            <class name="product.get.GetProductByIdEdgeCasesTest"/>
         </classes>
     </test>
 </suite>

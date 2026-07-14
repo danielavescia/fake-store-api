@@ -1,4 +1,4 @@
-package product;
+package product.get;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;

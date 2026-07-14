@@ -1,4 +1,4 @@
-package product;
+package product.get;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
