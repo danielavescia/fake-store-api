@@ -34,23 +34,17 @@ public class ProductDataProvider {
         };
     }
 
-    @DataProvider(name = "invalidId")
-    public static Object [][] invalidId(){
+    @DataProvider(name = "invalidOrOutOfRangeId")
+    public static Object [][] invalidOrOutOfRangeId(){
         return new Object[][]{
             {"abc"},
             {"-1"},
-            {"%2"}
-        };
-    }
-
-    @DataProvider(name = "invalidRangeId")
-    public static Object [][] invalidRangeId(){
-        return new Object[][]{
+            {"%2"},
             {"2147483648"},
             {"99999999999"},
             {"-2147483649"}
         };
-    }  
+    }
     
     @DataProvider(name = "invalidOrPartialPayloads")
     public static Object [][] invalidOrPartialPayloads(){

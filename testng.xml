@@ -13,8 +13,9 @@
             <class name="product.get.GetProductsLimitEdgeCasesTest"/>
             <class name="product.get.GetProductByIdTest"/>
             <class name="product.get.GetProductByIdEdgeCasesTest"/>
-            <class name ="product.post.CreateProductTest"/>
-            <class name ="product.post.CreateProductPartialOrInvalidPayloadTest"/>
+            <class name="product.post.CreateProductTest"/>
+            <class name="product.post.CreateProductPartialOrInvalidPayloadTest"/>
+            <class name="product.post.CreateProductBoundaryAndSecurityTest"/>
         </classes>
     </test>
 </suite>

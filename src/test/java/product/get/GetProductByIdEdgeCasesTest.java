@@ -22,8 +22,8 @@ public class GetProductByIdEdgeCasesTest extends BaseTest {
 
     private static final ProductClient productClient = new ProductClient();
 
-    @Test(description = "[CO10] - GET /products/{id} Comportamento atual: API não valida id inválido, retorna 200 e body vazio",
-        dataProvider = "invalidId", dataProviderClass = ProductDataProvider.class)
+    @Test(description = "[CO10/C11] - GET /products/{id} Comportamento atual: API não valida id inválido, retorna 200 e body vazio",
+        dataProvider = "invalidOrOutOfRangeId", dataProviderClass = ProductDataProvider.class)
     @Tag("C08")
     @Severity(SeverityLevel.NORMAL)
     public void shouldReturnStatusCode200(String invalidId) {
@@ -32,20 +32,6 @@ public class GetProductByIdEdgeCasesTest extends BaseTest {
 
         assertEquals(response.getStatusCode(), 200,
                 "Erro: Status code retornado foi: " + response.getStatusCode() + " e o esperado era 200.");
-        assertTrue(
-                body.isEmpty() || body.equals("[]") ,
-                "Esperado resposta vazia, mas veio: " + body);
-    }
-
-    @Test(description = "[CO11] - GET /products/{id} Comportamento atual: API não trata id fora do range",
-        dataProvider = "invalidRangeId", dataProviderClass = ProductDataProvider.class)
-    @Tag("C011")
-    @Severity(SeverityLevel.NORMAL)
-    public void shouldReturnSameId(String invalidId) {
-        Response response = productClient.getProductById(invalidId);
-        assertEquals(response.getStatusCode(), 200,
-                "Erro: Status code retornado foi: " + response.getStatusCode() + " e o esperado era 200.");
-        String body = response.getBody().asString().trim();
         assertTrue(
                 body.isEmpty() || body.equals("[]") ,
                 "Esperado resposta vazia, mas veio: " + body);
