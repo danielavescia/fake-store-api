@@ -60,9 +60,6 @@ Status `201` contendo no body o produto equivalente ao criado, seguindo o schema
 - `description`: String
 - `category`: String
 - `image`: String (URI)
-- `rating`: Object
-  - `rate`: Float
-  - `count`: Integer
 
 ## Cenários de Teste
 | ID | Cenário | Validações | Status |
@@ -115,12 +112,16 @@ O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powere
 |---|---|---|
 | GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
 
+---
+
 ### GET / products/{id} retorna status code 200 para IDs inválidos e inexistentes
 O teste do cenário CO10 e C011 para `GET /products/{id}` retorna `HTTP 200 OK` quando recebe um ID inválido. 
 
 Para uma requisição com identificador inexistente ou inválido, o comportamento esperado seria retornar um status code indicando que o recurso não foi encontrado ou que a requisição é inválida, como `404 Not Found`(inexistente = `50`) ou `400 Bad Request`( inválido = `abc`, `-1`, ` 1`), dependendo da regra definida pela API.
 
 O retorno atual com `200 OK` gera ambiguidade, pois indica sucesso na operação mesmo quando nenhum produto foi localizado, dificultando o tratamento correto do cenário pelo consumidor da API.
+
+---
 
 ### POST / products não valida campos
 O teste do cenário de criação de produtos om payload parcial retorna `HTTP 201 CREATED`, mesmo quando campos obrigatórios documentados não são enviados no corpo da requisição.
@@ -138,7 +139,9 @@ Porém ao enviar payload vazio ou com ausência desses campos, a API ainda assim
 Para esse tipo de requisições, o comportamento esperado seria retornar um status code que indique erro de validação como `400 Bad Request`, evitando a criação de recursos inconsistentes e não validados.
 ![Não valida campos do payload](image-2.png)
 
-Outro problema encontrado foi no campo `price`, que aceita números negativoa sem qualquer validação e até tipos indorretos, como string.
+Outro problema encontrado foi no campo `price`, que aceita números negativoa sem qualquer validação e até tipos incorretos, como string.
 
 ![Não valida valores negativos para campo price](image-1.png)
 ![Não valida tipo de dado enviado para campo price](image-3.png)
+
+---
