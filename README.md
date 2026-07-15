@@ -69,7 +69,7 @@ Status `201` contendo no body o produto equivalente ao criado, seguindo o schema
 |----|---------|-----------|--------|
 | C12 | Produto criado com sucesso  | • Status `200`<br>• Response body com objeto produto igual ao enviado<br>| PASS |
 | C13 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br> | PASS |
-| C14 | Body do request com payload parcial/vazio|• Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |
+| C14 | Body do request com payload parcial/vazio|• Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| PASS |
 | C15 |Body do request com JSON mal formado | • 400 - Bad request <br>• Retorna HTML de erro | - |
 | C16 |Body do request com tipos de dados incorretos  | <br>• Entrada:`2147483648`,`99999999999`,`-2147483648`<br><br>• 200 - OK  <br> | - |
 | C17 |Body do request testando limite dos campos do payload  | • Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |

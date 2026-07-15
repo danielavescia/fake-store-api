@@ -61,28 +61,97 @@ public class ProductDataProvider {
             },
 
             {
-                "somente title",
+                "payload somente title",
                 Product.builder().title("Camisa teste").build()
             },
 
             {
-                "somente price",
+                "payload somente price",
                 Product.builder().price(12.9f).build()
             },
 
             {
-                "somente description",
+                "payload somente description",
                 Product.builder().description("Descrição teste").build()
             },
 
             {
-                "somente image",
+                "payload somente image",
                 Product.builder().image("http://exemplo.com/imagem.jpg").build()
             },
 
             {
-                "somente description",
+                "payload somente description",
                 Product.builder().category("Vestuário masculino").build()
+            },
+
+            {
+                "payload sem price",
+                Product.builder()
+                .title("Calça teste")
+                .description("Calça")
+                .category("Vestuário masculino")
+                .image("http://exemplo.com/imagem.jpg")
+                .build()
+            },
+            {
+                "payload sem title",
+                Product.builder()
+                .price(59.99f)
+                .description("Calça")
+                .category("Vestuário masculino")
+                .image("http://exemplo.com/imagem.jpg")
+                .build()
+            },
+            {
+                "payload sem description",
+                Product.builder()
+                .price(59.99f)
+                .title("Calça teste")
+                .category("Vestuário masculino")
+                .image("http://exemplo.com/imagem.jpg")
+                .build()
+            },
+            {
+                "payload sem category",
+                Product.builder()
+                .price(59.99f)
+                .title("Calça teste")
+                .description("Calça")
+                .image("http://exemplo.com/imagem.jpg")
+                .build()
+            },
+
+            {
+                "payload sem image",
+                Product.builder()
+                .price(59.99f)
+                .title("Calça teste")
+                .description("Calça")
+                .category("Vestuário masculino")
+                .build()
+            },
+            {
+                "payload com price negativo",
+                Product.builder()
+                .price(-59.99f)
+                .title("Calça teste")
+                .description("Calça")
+                .category("Vestuário masculino")
+                .image("http://exemplo.com/imagem.jpg")
+                .build()
+            },
+
+            {
+                "payload com id",
+                Product.builder()
+                .id(50)
+                .price(59.99f)
+                .title("Calça teste")
+                .description("Calça")
+                .category("Vestuário masculino")
+                .image("http://exemplo.com/imagem.jpg")
+                .build()
             },
         };
     }
