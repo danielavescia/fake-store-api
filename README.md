@@ -138,6 +138,7 @@ Porém ao enviar payload vazio ou com ausência desses campos, a API ainda assim
 Para esse tipo de requisições, o comportamento esperado seria retornar um status code que indique erro de validação como `400 Bad Request`, evitando a criação de recursos inconsistentes e não validados.
 ![Não valida campos do payload](image-2.png)
 
-Outro problema encontrado foi no campo `price`, que aceita números negativoa sem qualquer validação. 
+Outro problema encontrado foi no campo `price`, que aceita números negativoa sem qualquer validação e até tipos indorretos, como string.
 
-![Não valida campo price](image-1.png)
+![Não valida valores negativos para campo price](image-1.png)
+![Não valida tipo de dado enviado para campo price](image-3.png)
