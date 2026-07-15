@@ -15,7 +15,7 @@ import io.qameta.allure.Story;
 import io.restassured.response.Response;
 
 @Feature("Produtos")
-@Story("Criar Produtos")
+@Story("Criar Produtos com dados inválidos")
 public class CreateProductPartialOrInvalidPayloadTest extends BaseTest{
     
     private final ProductClient productClient = new ProductClient();

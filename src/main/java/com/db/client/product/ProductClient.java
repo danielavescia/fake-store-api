@@ -81,4 +81,19 @@ public class ProductClient {
                 .extract()
                 .response();
     }
+
+    @Step("Envia requisição para POST /products")
+    public Response createProductRawBody(String body){
+        return given()
+                .accept("application/json")
+                .contentType(ContentType.JSON)
+                .body(body)
+                .log().ifValidationFails()
+            .when()
+                .post(PRODUCT_ENDPOINT)
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
 }

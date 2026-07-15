@@ -155,4 +155,50 @@ public class ProductDataProvider {
             },
         };
     }
+
+    @DataProvider(name = "oversizedPayloads")
+    public static Object[][] oversizedPayloads(){
+        return new Object[][]{
+            {
+                "payload extremamente grande (DoS)",
+                Product.builder()
+                    .title("A".repeat(5_000_000))
+                    .price(59.90f)
+                    .description("desc")
+                    .category("roupas")
+                    .image("http://x.com/a.jpg")
+                    .build()
+            }
+        };
+    }
+
+    @DataProvider(name = "invalidJsonPayloads")
+    public static Object[][] invalidJsonPayloads(){
+        return new Object[][]{
+                {
+                    "json com chave sem aspas",
+                    "{title: \"Camiseta\", price: 59.90}"
+                },
+
+                {
+                    "json com vírgula sobrando",
+                    "{\"title\": \"Camiseta\", \"price\": 59.90,}"
+                },
+
+                {
+                    "json com chave não fechada",
+                    "{\"title\": \"Camiseta\", \"price\": 59.90"
+                },
+
+                {
+                    "json vazio como string (não é objeto)",
+                    "\"apenas uma string\""
+                },
+
+                {
+                    "json com aspas simples ao invés de duplas",
+                    "{'title': 'Camiseta', 'price': 59.90}"
+                }
+        };
+    }
 }
