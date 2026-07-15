@@ -70,12 +70,12 @@ Status `201` contendo no body o produto equivalente ao criado, seguindo o schema
 | C12 | Produto criado com sucesso  | • Status `200`<br>• Response body com objeto produto igual ao enviado<br>| PASS |
 | C13 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br> | PASS |
 | C14 | Body do request com payload parcial/vazio|• Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| PASS |
-| C15 |Body do request com JSON mal formado | • 400 - Bad request <br>• Retorna HTML de erro | - |
+| C15 |Body do request com JSON mal formado | • 400 - Bad request <br>• Retorna HTML de erro | PASS |
 | C16 |Body do request com tipos de dados incorretos  | <br>• Entrada:`2147483648`,`99999999999`,`-2147483648`<br><br>• 200 - OK  <br> | - |
 | C17 |Body do request testando limite dos campos do payload  | • Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |
-| C18 |Body do request com SQL injection  | • Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| - |
+| C18 *|Deve verificar o body do request com risco de Dos  | • Status `413` <br> • Response body com id<br> <br> • Response body com erro em HTML<br>| PASS |
 
-
+*OBS: https://medium.com/@vloban/common-security-issues-in-node-js-applications-51d334d42223
 ---
 
 ## Achados do Relatório de Testes
@@ -121,3 +121,23 @@ O teste do cenário CO10 e C011 para `GET /products/{id}` retorna `HTTP 200 OK` 
 Para uma requisição com identificador inexistente ou inválido, o comportamento esperado seria retornar um status code indicando que o recurso não foi encontrado ou que a requisição é inválida, como `404 Not Found`(inexistente = `50`) ou `400 Bad Request`( inválido = `abc`, `-1`, ` 1`), dependendo da regra definida pela API.
 
 O retorno atual com `200 OK` gera ambiguidade, pois indica sucesso na operação mesmo quando nenhum produto foi localizado, dificultando o tratamento correto do cenário pelo consumidor da API.
+
+### POST / products não valida campos
+O teste do cenário de criação de produtos om payload parcial retorna `HTTP 201 CREATED`, mesmo quando campos obrigatórios documentados não são enviados no corpo da requisição.
+De acordo com a documentação o paylload esperado deve conter os seguintes campos:
+{ 
+  "id": 0, 
+  "title": "string", 
+  "price": 0.1, 
+  "description": "string", 
+  "category": "string", 
+  "image": "http://example.com" 
+}
+
+Porém ao enviar payload vazio ou com ausência desses campos, a API ainda assim processa a requisição com sucesso e gera um `id` para o recurso.
+Para esse tipo de requisições, o comportamento esperado seria retornar um status code que indique erro de validação como `400 Bad Request`, evitando a criação de recursos inconsistentes e não validados.
+![Não valida campos do payload](image-2.png)
+
+Outro problema encontrado foi no campo `price`, que aceita números negativoa sem qualquer validação. 
+
+![Não valida campo price](image-1.png)
