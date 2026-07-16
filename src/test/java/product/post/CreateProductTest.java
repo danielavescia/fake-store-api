@@ -2,17 +2,17 @@ package product.post;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
+import assertions.ApiAssertions;
 import base.BaseTest;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -31,7 +31,7 @@ public class CreateProductTest extends BaseTest {
 
     private Product bodyRequest = Product.builder()
                     .title("Mens Casual Premium Slim Fit Jeans")
-                    .price(Float.valueOf("99.99")) 
+                    .price(99.99f)
                     .description("Jeans 100% cotton")
                     .category("men's clothing")
                     .image("https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png")
@@ -46,14 +46,14 @@ public class CreateProductTest extends BaseTest {
     }
 
     @Test(description = "[C12] - Deve retornar produto criado com sucesso")
-    @Tag("C12")
+    @Tag("smoke")
     @Severity(SeverityLevel.BLOCKER)
     void shouldCreateProductSuccessfully(){
-        assertEquals(response.getStatusCode(), 201, "Erro: satatus code retornado: " + response.getStatusCode() + " e o esperado era 201.");
+        ApiAssertions.assertStatusCode(response, 201);
     }
 
     @Test(description = "[C12] - POST /products deve retornar Content-Type application/json")
-    @Tag("C12")
+    @Tag("regression")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnJsonContentType(){
         assertTrue(response.getContentType().contains("application/json; charset=utf-8"),
@@ -61,19 +61,24 @@ public class CreateProductTest extends BaseTest {
     }
 
     @Test(description = "[C12] - POST /products deve retornar produto criado")
-    @Tag("C13")
+    @Tag("smoke")
     @Severity(SeverityLevel.CRITICAL)
     public void shoudlReturnExpectedProduct(){
-        assertNotNull(actualProduct);
-        assertThat(actualProduct, hasProperty("id"));
-        assertEquals(actualProduct.getCategory(), bodyRequest.getCategory());
-        assertEquals(actualProduct.getDescription(), bodyRequest.getDescription());
-        assertEquals(actualProduct.getTitle(), bodyRequest.getTitle());
-        assertEquals(actualProduct.getImage(), bodyRequest.getImage());
+        SoftAssert softAssert = new SoftAssert();
+
+        ApiAssertions.softAssertNotNull(softAssert,"id", actualProduct);
+        ApiAssertions.softAssertField(softAssert, "price", actualProduct.getPrice(), bodyRequest.getPrice());
+        ApiAssertions.softAssertField(softAssert, "category", actualProduct.getCategory(), bodyRequest.getCategory());
+        ApiAssertions.softAssertField(softAssert, "description", actualProduct.getDescription(), bodyRequest.getDescription());
+        ApiAssertions.softAssertField(softAssert, "title", actualProduct.getTitle(), bodyRequest.getTitle());
+        ApiAssertions.softAssertField(softAssert, "image", actualProduct.getImage(), bodyRequest.getImage());
+
+        softAssert.assertAll();
     }
 
     @Test(description = "[C13] - POST /products deve retornar response conforme schema")
+    @Tag("regression")
     public void shouldReturnProductWithValidSchema(){
-        assertThat(response.asString(), matchesJsonSchemaInClasspath("schemas/product-without-rating-schema.json"));
+        ApiAssertions.assertMatchesSchema(response, "schemas/product-without-rating-schema.json");
     }
 }
