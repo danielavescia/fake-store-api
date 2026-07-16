@@ -75,6 +75,20 @@ Status `201` contendo no body o produto equivalente ao criado, seguindo o schema
 * **Obs:** [Segurança em aplicação em Node](https://medium.com/@vloban/common-security-issues-in-node-js-applications-51d334d42223)
 
 ---
+
+## PUT /products/{id}
+**Endpoint:** `https://fakestoreapi.com/products`
+
+### Resposta esperada
+Status `200` contendo no body o produto equivalente ao atualizado, seguindo o schema observado:
+
+- `id`: Integer
+- `title`: String
+- `price`: Float
+- `description`: String
+- `category`: String
+- `image`: String (URI)
+
 ## Cenários de Teste
 
 | ID | Cenário | Validações | Status |
@@ -89,6 +103,32 @@ Status `201` contendo no body o produto equivalente ao criado, seguindo o schema
 | C26 | Atualização utilizando campos extras não esperados | • Enviar campos adicionais no JSON<br>• API deve ignorar campos extras ou retornar erro conforme contrato<br>• Não deve comprometer a atualização | - |
 | C27 | Atualização com caracteres especiais no payload | • Enviar caracteres Unicode, emojis e símbolos em campos texto<br>• Status `200` ou erro controlado<br>• Dados armazenados corretamente sem quebra de encoding | - |
 | C28 | Atualização com payload muito grande (risco de DoS) | • Enviar body acima do limite esperado<br>• Status esperado `413 - Payload Too Large`<br>• Response body contém erro controlado<br>• API permanece disponível | - |
+
+---
+
+## DELETE /products/{id}
+**Endpoint:** `https://fakestoreapi.com/products/{id}`
+
+### Resposta esperada
+Status `200` contendo no body o produto equivalente ao deletado, seguindo o schema observado:
+
+- `id`: Integer
+- `title`: String
+- `price`: Float
+- `description`: String
+- `category`: String
+- `image`: String (URI)
+
+## Cenários de Teste
+
+| ID | Cenário | Status |
+|----|---------|--------|
+| C29 | Deleção de produto com `id` válido | - |
+| C30 | Deleção de produto com `id` inválido | - |
+| C31 | Schema da resposta está correto (campos obrigatórios e tipos corretos) | - |
+| C32 | Deleção consecutiva do mesmo produto  | - |
+| C33 | Deleção enviando body no request | - |
+| C34 | Deleção sem informar o `id` no path param | - |
 
 ---
 
