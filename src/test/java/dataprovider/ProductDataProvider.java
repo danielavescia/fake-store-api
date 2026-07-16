@@ -75,7 +75,7 @@ public class ProductDataProvider {
             },
 
             {
-                "payload somente description",
+                "payload somente category",
                 Product.builder().category("Vestuário masculino").build()
             },
 
