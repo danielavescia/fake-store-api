@@ -11,7 +11,18 @@ import io.restassured.response.Response;
 public class ApiAssertions {
 
     public static void assertStatusCode(Response response, int expectedStatusCode){
-        assertEquals(response.getStatusCode(), expectedStatusCode, "Erro: Status code retornado foi: " + response.getStatusCode() + " e o esperado era " + expectedStatusCode + ".");
+        assertStatusCode(response, expectedStatusCode, null);
+    }
+
+    public static void assertStatusCode(Response response, int expectedStatusCode, String scenario){
+        String initialMessage = (scenario != null && !scenario.isBlank()) 
+            ? "Erro no cenário " + scenario + ":"
+            :"Erro: ";
+
+         assertEquals(response.getStatusCode(), expectedStatusCode, 
+            initialMessage + "Erro: Status code retornado foi: " + response.getStatusCode()
+            + " e o esperado era " + expectedStatusCode + "."
+        );
     }
 
     public static void assertMatchesSchema(Response response, String schemaClassPath){
@@ -25,7 +36,7 @@ public class ApiAssertions {
                 + "Detalhes: " + e.getMessage() + "\n" 
                 + "Corpo da resposta: " + response.asString(), e
             );
-            
+
         } catch(Exception e){
             throw new RuntimeException(
                 "Erro ao validar o schema: (" + schemaClassPath + "): \n"

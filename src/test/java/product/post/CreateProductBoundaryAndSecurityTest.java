@@ -8,34 +8,37 @@ import org.testng.annotations.Test;
 import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
+import assertions.ApiAssertions;
 import base.BaseTest;
 import dataprovider.ProductDataProvider;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
 @Feature("Produtos")
-@Story("")
+@Story("Criar Produto - Validações de Limites e Segurança")
 public class CreateProductBoundaryAndSecurityTest extends BaseTest{
 
     private ProductClient productClient = new ProductClient();
     
     private Response response;
 
-    @Test(description = "Deve retornar 400 e HTML de erro para JSON mal formado", dataProvider = "invalidJsonPayloads", dataProviderClass = ProductDataProvider.class)
+    @Test(description = "[C15] Deve retornar 400 e HTML de erro para JSON mal formado", dataProvider = "invalidJsonPayloads", dataProviderClass = ProductDataProvider.class)
+    @Tag("regression")
     void shouldReturnBadRequestForInvalidJson(String scenario, String requestBody){
         response = productClient.createProductRawBody(requestBody);
         
-        assertEquals(response.getStatusCode(),400, "Erro no cenário: " + scenario + "status code retornado: " + response.getStatusCode() + ", mas o esperado era 400.");
+        ApiAssertions.assertStatusCode(response, 400, scenario);
         assertTrue(response.getContentType().contains("text/html;"), "Erro cenário: " + scenario + "content-type deveria ser HTML, mas foi retornado: " + response.getContentType() );
     }
 
-    @Test(description = "Deve rejeitar payload excessivamente grande com status code 413 ", dataProvider = "oversizedPayloads", dataProviderClass = ProductDataProvider.class)
+    @Test(description = "[C18] Deve rejeitar payload excessivamente grande com status code 413 ", dataProvider = "oversizedPayloads", dataProviderClass = ProductDataProvider.class)
+    @Tag("regression")
+    @Tag("security")
     void shouldReturnPayloadTooLarge(String scenario, Product requestBody){
         response = productClient.createProduct(requestBody);
 
-        assertEquals(response.getStatusCode(), 413,
-        "Erro no cenário '" + scenario + "': API retornou erro de servidor (" + response.getStatusCode() + ") - possível processamento inseguro do payload.");
-
+        ApiAssertions.assertStatusCode(response, 413, scenario);
     }
 }
