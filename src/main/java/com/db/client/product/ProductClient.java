@@ -67,7 +67,7 @@ public class ProductClient {
                 .response();
     }
 
-    @Step("Envia requisição para POST /products")
+    @Step("Envia requisição para POST /products com corpo tipado")
     public Response createProduct(Product product){
         return given()
                 .accept("application/json")
@@ -82,7 +82,7 @@ public class ProductClient {
                 .response();
     }
 
-    @Step("Envia requisição para POST /products")
+    @Step("Envia requisição para POST /products com corpo raw")
     public Response createProductRawBody(String body){
         return given()
                 .accept("application/json")
@@ -91,6 +91,22 @@ public class ProductClient {
                 .log().ifValidationFails()
             .when()
                 .post(PRODUCT_ENDPOINT)
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
+
+    @Step("Envia requisição para PUT /products")
+    public Response updateProduct(Product body, String id){
+        return given()
+                .accept("application/json")
+                .pathParam("id", id)
+                .contentType(ContentType.JSON)
+                .body(body)
+                .log().ifValidationFails()
+            .when()
+                .put(PRODUCT_ENDPOINT + "/{id}")
             .then()
                 .log().ifValidationFails()
                 .extract()
