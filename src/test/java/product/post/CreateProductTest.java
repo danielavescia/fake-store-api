@@ -1,8 +1,5 @@
 package product.post;
 
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.BeforeClass;
