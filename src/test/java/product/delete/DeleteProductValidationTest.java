@@ -19,7 +19,7 @@ import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
 @Feature("Produtos")
-@Story("Deve validar payloads")
+@Story("Deve validar payloads, path params")
 public class DeleteProductValidationTest extends BaseTest{
 
     private static final ProductClient productClient = new ProductClient();
@@ -49,5 +49,15 @@ public class DeleteProductValidationTest extends BaseTest{
         ApiAssertions.assertStatusCode(response, 404);
 
         assertThat(response.getContentType(), is("text/html; charset=utf-8"));
+    }
+
+    @Test(description ="[C32] - Deve ignorar body do request e deletar produto")
+    @Severity(SeverityLevel.NORMAL)
+    @Tag("regression")
+    void shouldDeleProductIgnoringBody(){
+        String rawBody = "{ \"somefield\": \"someValue\" }";
+        response = productClient.deleteProductWithBody("1", rawBody);
+
+        ApiAssertions.assertStatusCode(response, 200);
     }
 }
