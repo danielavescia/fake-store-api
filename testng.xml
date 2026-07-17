@@ -16,6 +16,9 @@
             <class name="product.post.CreateProductTest"/>
             <class name="product.post.CreateProductPartialOrInvalidPayloadTest"/>
             <class name="product.post.CreateProductBoundaryAndSecurityTest"/>
+            <class name="product.put.UpdateProductTest"/>
+            <class name="product.put.UpdateProductPartialOrInvalidPayloadTest"/>
+            <class name="product.put.UpdateProductBoundaryAndSecurityTest"/>
         </classes>
     </test>
 </suite>
