@@ -112,4 +112,20 @@ public class ProductClient {
                 .extract()
                 .response();
     }
+
+    @Step("Envia requisição para PUT /products")
+    public Response updateProductRawBody(String rawBody, String id){
+        return given()
+                .accept("application/json")
+                .pathParam("id", id)
+                .contentType(ContentType.JSON)
+                .body(rawBody)
+                .log().ifValidationFails()
+            .when()
+                .put(PRODUCT_ENDPOINT + "/{id}")
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
 }
