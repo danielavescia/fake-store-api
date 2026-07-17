@@ -78,4 +78,29 @@ public class UpdateProductTest extends BaseTest{
     public void shouldReturnProductWithValidSchema(){
         ApiAssertions.assertMatchesSchema(response, "schemas/product-without-rating-schema.json");
     }
+
+    @Test(description = "[C22] - PUT /products com id inexistente retona 200 (comportamento errôneo da API)")
+    @Tag("regression")
+    @Severity(SeverityLevel.NORMAL)
+    void shoudlReturnSucessWhenUpdatingNonExistentProduct(){
+        
+        SoftAssert softAssert = new SoftAssert();
+        Product payload = Product.builder()
+                .title("produto atualizado")
+                .price(50.99f)
+                .description("Jeans 100% polyester")
+                .category("men's clothing")
+                .image("https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png")
+                .build();
+
+        Response updateResponse = productClient.updateProduct(payload, "9999");
+
+        ApiAssertions.assertStatusCode(updateResponse, 200);
+        
+        Product actualProduct = updateResponse.as(Product.class);
+
+        ApiAssertions.softAssertField(softAssert, "id", String.valueOf(actualProduct.getId()), "9999");
+        ApiAssertions.softAssertField(softAssert, "title", actualProduct.getTitle(), payload.getTitle());
+        softAssert.assertAll();
+    }
 }
