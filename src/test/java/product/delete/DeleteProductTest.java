@@ -29,14 +29,14 @@ public class DeleteProductTest extends BaseTest {
         response = productClient.deleteProduct("1");
     }
 
-    @Test(description = "[C12] - Deve retornar produto criado com sucesso")
+    @Test(description = "[C28] - Deve retornar produto criado com sucesso")
     @Tag("smoke")
     @Severity(SeverityLevel.BLOCKER)
     void shouldDeleteProductSuccessfully(){
         ApiAssertions.assertStatusCode(response, 200);
     }
 
-    @Test(description = "[C12] - DELETE /products deve retornar Content-Type application/json")
+    @Test(description = "[C28] - DELETE /products deve retornar Content-Type application/json")
     @Tag("regression")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnJsonContentType(){
@@ -44,7 +44,7 @@ public class DeleteProductTest extends BaseTest {
          "Erro: Content-Type retornado: " + response.getContentType() + "e o esperado era application/json; charset=utf-8");
     }
 
-    @Test(description = "[C13] - POST /products deve retornar response conforme schema")
+    @Test(description = "[C30] - DELETE /products deve retornar response conforme schema")
     @Tag("regression")
     public void shouldReturnProductWithValidSchema(){
         ApiAssertions.assertMatchesSchema(response, "schemas/product-schema.json");

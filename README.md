@@ -122,9 +122,9 @@ Status `200` contendo no body o produto equivalente ao deletado, seguindo o sche
 
 | ID | Cenário | Status |
 |----|---------|--------|
-| C28 | Deleção de produto com `id` válido | - |
+| C28 | Deleção de produto com `id` válido | PASS |
 | C39 | Deleção de produto com `id` inválido | - |
-| C30 | Schema da resposta está correto (campos obrigatórios e tipos corretos) | - |
+| C30 | Schema da resposta está correto (campos obrigatórios e tipos corretos) | PASS |
 | C31 | Deleção consecutiva do mesmo produto  | - |
 | C32 | Deleção enviando body no request | - |
 | C33 | Deleção sem informar o `id` no path param | - |
