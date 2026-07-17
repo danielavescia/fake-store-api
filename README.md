@@ -95,13 +95,13 @@ Status `200` contendo no body o produto equivalente ao atualizado, seguindo o sc
 |----|---------|-----------|--------|
 | C19 | Atualização de produto com sucesso | • Status `200` <br>• Response body com objeto produto atualizado igual ao enviado <br>• Campos alterados persistem corretamente | PASS |
 | C20 | Schema da resposta está correto (campos obrigatórios e tipos corretos) | schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br>| PASS |
-| C21 | Atualização de produto com payload parcial/vazio | • Status `200` <br>• API aceita atualização parcial ou mantém valores anteriores (conforme regra do endpoint)<br>• Response body contém estrutura válida | - |
+| C21 | Atualização de produto com payload parcial/vazio | • Status `200` <br>• API aceita atualização parcial ou mantém valores anteriores (conforme regra do endpoint)<br>• Response body contém estrutura válida | PASS |
 | C22 | Atualização de produto inexistente | • Enviar `id` que não existe<br>• Status esperado `200`  (comportamento definido pela API)<br>• Response body contém id e dados de atualização enviados | - |
-| C23 | Body do request com JSON mal formado | • Status `400 - Bad Request` <br>• Response body contém erro de validação/formatação<br>• Não deve atualizar o produto | - |
+| C23 | Body do request com JSON mal formado | • Status `400 - Bad Request` <br>• Response body contém erro de validação/formatação<br>• Não deve atualizar o produto | PASS |
 | C24 | Body do request com tipos de dados incorretos | • Entrada:<br>`id`: String<br>`price`: String/Boolean<br>`title`: Integer<br>• Status esperado `200` (comportamento Response body contém id e dados de atualização enviados| - |
 | C25 | Body do request testando limite dos campos do payload | • Enviar valores máximos/mínimos:<br>• `title` e `description` com tamanho máximo permitido<br>• `price` com valores limite<br>• Status esperado conforme regra da API<br>• Response body mantém contrato esperado | - |
-| C26 | Atualização utilizando campos extras não esperados | • Enviar campos adicionais no JSON<br>• API deve ignorar campos extras<br>• Não deve comprometer a atualização(comportamento da API) | - |
-| C27 | Atualização com payload muito grande (risco de DoS) | • Enviar body acima do limite esperado<br>• Status esperado `413 - Payload Too Large`<br>• Response body contém erro<br>•  Envia html de erro | - |
+| C26 | Atualização utilizando campos extras não esperados | • Enviar campos adicionais no JSON<br>• API deve ignorar campos extras<br>• Não deve comprometer a atualização(comportamento da API) | PASS |
+| C27 | Atualização com payload muito grande (risco de DoS) | • Enviar body acima do limite esperado<br>• Status esperado `413 - Payload Too Large`<br>• Response body contém erro<br>•  Envia html de erro | PASS |
 
 ---
 
