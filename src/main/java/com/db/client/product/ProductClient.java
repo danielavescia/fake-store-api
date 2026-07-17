@@ -128,4 +128,19 @@ public class ProductClient {
                 .extract()
                 .response();
     }
+
+    @Step("Envia requisição para DELETE /products")
+    public Response deleteProduct(String id){
+        return given()
+                .accept("application/json")
+                .pathParam("id", id)
+                .contentType(ContentType.JSON)
+                .log().ifValidationFails()
+            .when()
+                .delete(PRODUCT_ENDPOINT + "/{id}")
+            .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
 }
