@@ -20,6 +20,7 @@
             <class name="product.put.UpdateProductPartialOrInvalidPayloadTest"/>
             <class name="product.put.UpdateProductBoundaryAndSecurityTest"/>
             <class name="product.delete.DeleteProductTest"/>
+            <class name="produc.detelete.DeleteProductValidationTest"/>
         </classes>
     </test>
 </suite>

@@ -195,4 +195,18 @@ public class ProductDataProvider {
                 }
         };
     }
+
+    @DataProvider(name = "invalidIdType")
+    public static Object[][] invalidIdType(){
+        return new Object[][]{
+            {
+                "Id tipo String",
+                "abc"
+            },
+            {
+                "Id tipo Boolean",
+                true
+            }
+        };
+    }
 }
