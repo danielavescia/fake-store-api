@@ -26,7 +26,7 @@ public class DeleteProductValidationTest extends BaseTest{
 
     private Response response;
 
-    @Test(description ="[C39] - Deve retornar erro para Id's que não são Integers", dataProvider = "invalidIdType", dataProviderClass = ProductDataProvider.class)
+    @Test(description ="[C29] - Deve retornar erro para Id's que não são Integers", dataProvider = "invalidIdType", dataProviderClass = ProductDataProvider.class)
     @Tag("regression")
     @Severity(SeverityLevel.NORMAL)
     void shouldReturnErrorForInvalidId(String Scenario, Object invalidId){
@@ -40,7 +40,7 @@ public class DeleteProductValidationTest extends BaseTest{
            equalTo("product id should be provided"));
     }
 
-    @Test(description ="[C33] - Deve retornar erro para requisição sem Id no path param")
+    @Test(description ="[C32] - Deve retornar erro para requisição sem Id no path param")
     @Severity(SeverityLevel.NORMAL)
     @Tag("regression")
     void shouldReturnErrorForNoId(){
@@ -51,7 +51,7 @@ public class DeleteProductValidationTest extends BaseTest{
         assertThat(response.getContentType(), is("text/html; charset=utf-8"));
     }
 
-    @Test(description ="[C32] - Deve ignorar body do request e deletar produto")
+    @Test(description ="[C31] - Deve ignorar body do request e deletar produto")
     @Severity(SeverityLevel.NORMAL)
     @Tag("regression")
     void shouldDeleProductIgnoringBody(){

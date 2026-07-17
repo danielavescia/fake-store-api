@@ -98,7 +98,7 @@ Status `200` contendo no body o produto equivalente ao atualizado, seguindo o sc
 | C21 | Atualização de produto com payload parcial/vazio | • Status `200` <br>• API aceita atualização parcial ou mantém valores anteriores (conforme regra do endpoint)<br>• Response body contém estrutura válida | PASS |
 | C22 | Atualização de produto inexistente | • Enviar `id` que não existe<br>• Status esperado `200`  (comportamento definido pela API)<br>• Response body contém id e dados de atualização enviados | PASS |
 | C23 | Body do request com JSON mal formado | • Status `400 - Bad Request` <br>• Response body contém erro de validação/formatação<br>• Não deve atualizar o produto | PASS |
-| C24 | Body do request com tipos de dados incorretos | • Entrada:<br>`id`: String<br>`price`: String/Boolean<br>`title`: Integer<br>• Status esperado `200` (comportamento Response body contém id e dados de atualização enviados| - |
+| C24 | Body do request com tipos de dados incorretos | • Entrada:<br>`id`: String<br>`price`: String/Boolean<br>`title`: Integer<br>• Status esperado `200` (comportamento Response body contém id e dados de atualização enviados)| - |
 | C25 | Body do request testando limite dos campos do payload | • Enviar valores máximos/mínimos:<br>• `title` e `description` com tamanho máximo permitido<br>• `price` com valores limite<br>• Status esperado conforme regra da API<br>• Response body mantém contrato esperado | - |
 | C26 | Atualização utilizando campos extras não esperados | • Enviar campos adicionais no JSON<br>• API deve ignorar campos extras<br>• Não deve comprometer a atualização(comportamento da API) | PASS |
 | C27 | Atualização com payload muito grande (risco de DoS) | • Enviar body acima do limite esperado<br>• Status esperado `413 - Payload Too Large`<br>• Response body contém erro<br>•  Envia html de erro | PASS |
@@ -123,11 +123,10 @@ Status `200` contendo no body o produto equivalente ao deletado, seguindo o sche
 | ID | Cenário | Status |
 |----|---------|--------|
 | C28 | Deleção de produto com `id` válido | PASS |
-| C39 | Deleção de produto com `id` inválido | PASS |
+| C29 | Deleção de produto com `id` inválido | PASS |
 | C30 | Schema da resposta está correto (campos obrigatórios e tipos corretos) | PASS |
-| C31 | Deleção consecutiva do mesmo produto  | - |
-| C32 | Deleção enviando body no request | - |
-| C33 | Deleção sem informar o `id` no path param | PASS |
+| C31 | Deleção enviando body no request | PASS |
+| C32 | Deleção sem informar o `id` no path param | PASS |
 
 ---
 
