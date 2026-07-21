@@ -1,5 +1,5 @@
 # Testes de API - Fake Store API
-
+Fake Store API é um mock e não persiste dados de verdade.
 ## GET /products
 **Endpoint:** `https://fakestoreapi.com/products`
 **Objetivo:** garantir que o endpoint mantém o contrato, integridade dos dados e comportamentos esperados
@@ -64,7 +64,7 @@ Status `201` contendo no body o produto equivalente ao criado, seguindo o schema
 ## Cenários de Teste
 | ID | Cenário | Validações | Status |
 |----|---------|-----------|--------|
-| C12 | Produto criado com sucesso  | • Status `200`<br>• Response body com objeto produto igual ao enviado<br>| PASS |
+| C12 | Produto criado com sucesso  | • Status `201`<br>• Response body com objeto produto igual ao enviado<br>| PASS |
 | C13 | Schema da resposta está correto(campos obrigatórios e tipos corretos) |schema:<br>• `id`: Integer<br>• `title`: String<br>• `price`: Float<br>• `description`: String<br>• `category`: String<br>• `image`: String (URI)<br> | PASS |
 | C14 | Body do request com payload parcial/vazio|• Status `200` <br> • Response body com id<br> <br> • Response body com objeto produto igual ao enviado<br>| PASS |
 | C15 |Body do request com JSON mal formado | • 400 - Bad request <br>• Retorna HTML de erro | PASS |
@@ -130,22 +130,106 @@ Status `200` contendo no body o produto equivalente ao deletado, seguindo o sche
 
 ---
 
-## Achados do Relatório de Testes
+# Achados do Relatório de Testes
 
-### Schema do response não documentado corretamente
+## 1. Contrato de resposta inconsistente entre documentação e endpoints
 
-O schema documentado para `GET /products` e `GET /products/{id}` **não inclui** o campo `rating`, mas a resposta real sempre retorna esse objeto aninhado (`rating.rate`, `rating.count`).
+A API apresenta divergências entre o schema documentado e o comportamento real dos endpoints.
 
-**Impacto:** Pode causar quebra de contrato para consumidores que fazem validação estrita de schema (schema validation) baseada apenas na documentação oficial.
+O campo `rating` não está documentado nos schemas de resposta de:
 
-| | Documentado | Retorno real |
-|---|---|---|
-| GET /products | *(sem campo `rating`)* | Inclui `rating: { rate, count }` |
-| GET /products/{id} | *(sem campo `rating`)* | Inclui `rating: { rate, count }` |
+- `GET /products`
+- `GET /products/{id}`
+
+Porém, esse campo é retornado pela API:
+
+```json
+{
+  "rating": {
+    "rate": 4.5,
+    "count": 120
+  }
+}
+
+| Endpoint              | Retorna `rating` |
+| --------------------- | ---------------- |
+| GET /products         |   Sim            |
+| GET /products/{id}    |   Sim            |
+| POST /products        |   Não            |
+| PUT /products/{id}    |   Não            |
+| DELETE /products/{id} |   Não            |
+
+**Impacto:** A inconsistência pode causar quebra de contrato para consumidores que utilizam validação de schema ou esperam um formato uniforme entre operações.
+
+**Obs:** Os testes realizados para o GET levaram em consideração o campo rating no schema.
 
 ---
 
-### Parâmetro `limit` sem validação de entrada
+## 2. Endpoints POST e PUT não validam campos obrigatórios do payload
+
+Os endpoints de criação e atualização de produtos aceitam requisições com payload vazio ou incompleto, mesmo quando campos obrigatórios estão definidos na documentação.
+
+Endpoints afetados:
+`POST /products`
+`PUT /products/{id}`
+
+* Payload esperado:
+
+{
+  "id": 0,
+  "title": "string",
+  "price": 0.1,
+  "description": "string",
+  "category": "string",
+  "image": "http://example.com"
+}
+
+
+Ao enviar payload parcial ou vazio a API retorna sucesso(201 - POST e 200 - PUT), informando ao cliente que processou a operação normalmente. 
+
+**Impacto:** a criação ou atualização sem os campos obrigatórios podem causas inconsistência nos dados. Seria correto a API validar o payload e retornar  `400 BAD REQUEST`
+![Não valida campos do payload](image-2.png)
+
+---
+
+## 3. Campo price em PUT E POST aceita valores inválidos
+
+O campo price não possui validação adequada nos endpoints de criação e atualização de produtos.
+
+Foram identificados os seguintes comportamentos:
+* Aceita valores negativos
+{
+  "price": -10
+}
+
+* Aceita tipos incompatíveis:
+{
+  "price": "valor inválido"
+}
+
+A API deve validar o tipo de campo, valores permitidos e retornar `400 BAD REQUEST` para dados inválidos com mensagem específica para o campo que tem contém o dado errado.
+
+Não valida valores negativos para campo price
+![Não valida valores negativos para campo price](image-1.png)
+
+Não valida tipo de dado enviado para campo price
+![Não valida tipo de dado enviado para campo price](image-3.png)
+
+---
+
+## 4. Endpoints não validam existência do recurso informado pelo ID
+Os endpoints abaixo não verificam corretamente se o produto informado existe:
+
+* GET /products/{id} -  retorna `200 OK` com corpo vazio
+* PUT /products/{id} - retorna `200 OK` com os dados atualizados presentes na requisição
+* DELETE /products/{id} - retorna `200 OK` com corpo vazio
+
+A validação evita operações inconsistentes e facilita o tratamento de erros pelos clientes da API.
+
+![Não valida existência de recurso antes da exclusão](image-4.png)
+---
+
+## 5. Parâmetro `limit` sem validação de entrada
 
 A API **não trata valores inválidos de `limit` com status code apropriado (`400 Bad Request`)**. Todos os cenários abaixo retornam `200 OK`, mesmo com valores fora do domínio esperado:
 
@@ -155,9 +239,10 @@ A API **não trata valores inválidos de `limit` com status code apropriado (`40
 | `limit=-1` | 200 | 19 | Valor negativo aplicado literalmente (comportamento tipo `slice(0, -1)`) |
 | `limit=abc` | 200 | 20 | Parâmetro não numérico ignorado — retorna valor padrão |
 
+Valores inválidos deveriam retornar mensagem de erro específica para o problema relacionado ao campo e status code `400 BAD REQUEST`
 ---
 
-### Vazamento de informação via header X-Powered-By
+## 6. Vazamento de informação via header X-Powered-By
 
 O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powered-By: Express`, expondo publicamente a tecnologia utilizada no backend (Express). Essa prática é desencorajada por boas práticas de segurança (OWASP), pois facilita a um atacante direcionar ataques específicos para vulnerabilidades conhecidas da stack identificada.
 
@@ -176,27 +261,3 @@ Para uma requisição com identificador inexistente ou inválido, o comportament
 
 O retorno atual com `200 OK` gera ambiguidade, pois indica sucesso na operação mesmo quando nenhum produto foi localizado, dificultando o tratamento correto do cenário pelo consumidor da API.
 
----
-
-### POST / products não valida campos
-O teste do cenário de criação de produtos om payload parcial retorna `HTTP 201 CREATED`, mesmo quando campos obrigatórios documentados não são enviados no corpo da requisição.
-De acordo com a documentação o paylload esperado deve conter os seguintes campos:
-{ 
-  "id": 0, 
-  "title": "string", 
-  "price": 0.1, 
-  "description": "string", 
-  "category": "string", 
-  "image": "http://example.com" 
-}
-
-Porém ao enviar payload vazio ou com ausência desses campos, a API ainda assim processa a requisição com sucesso e gera um `id` para o recurso.
-Para esse tipo de requisições, o comportamento esperado seria retornar um status code que indique erro de validação como `400 Bad Request`, evitando a criação de recursos inconsistentes e não validados.
-![Não valida campos do payload](image-2.png)
-
-Outro problema encontrado foi no campo `price`, que aceita números negativoa sem qualquer validação e até tipos incorretos, como string.
-
-![Não valida valores negativos para campo price](image-1.png)
-![Não valida tipo de dado enviado para campo price](image-3.png)
-
----
