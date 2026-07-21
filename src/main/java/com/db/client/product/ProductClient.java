@@ -134,7 +134,6 @@ public class ProductClient {
         return given()
                 .accept("application/json")
                 .pathParam("id", id)
-                .contentType(ContentType.JSON)
                 .log().ifValidationFails()
             .when()
                 .delete(PRODUCT_ENDPOINT + "/{id}")
@@ -144,7 +143,7 @@ public class ProductClient {
                 .response();
     }
 
-     @Step("Envia requisição para DELETE /products com body")
+    @Step("Envia requisição para DELETE /products com body")
     public Response deleteProductWithBody(String id, String rawBody){
         return given()
                 .accept("application/json")
