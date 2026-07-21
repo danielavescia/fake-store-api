@@ -9,7 +9,7 @@ import base.BaseTest;
 import dataprovider.LoginDataProvider;
 import io.restassured.response.Response;
 
-public class LoginInvalidCredentials extends BaseTest{
+public class LoginInvalidCredentialsTest extends BaseTest{
     AuthClient authClient = new AuthClient();
 
     @Test(description = "Deve rejeitar payloads malforamados sem autenticar",
