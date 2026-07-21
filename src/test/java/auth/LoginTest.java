@@ -22,7 +22,7 @@ import io.restassured.response.Response;
 /* Dados do usuário estão hardcode porque está presente na documentação da API */
 
 @Feature("Usuários")
-@Story("Login de Usuário")
+@Story("Login de Usuário Válido")
 public class LoginTest extends BaseTest{
 
     private static final AuthClient authClient = new AuthClient();

@@ -21,6 +21,7 @@
             <class name="product.put.UpdateProductBoundaryAndSecurityTest"/>
             <class name="product.delete.DeleteProductTest"/>
             <class name="product.delete.DeleteProductValidationTest"/>
+            <class name="product.auth.LoginTest"/>
         </classes>
     </test>
 </suite>
