@@ -18,6 +18,10 @@ import io.qameta.allure.Story;
 import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
+/* Como a API testado não possui banco de dados não é possível fazer 
+* um get By Id para confirmar a persistência após a criação de um produto
+ */
+
 @Feature("Produtos")
 @Story("Criar Produto Válido")
 public class CreateProductTest extends BaseTest {
@@ -63,7 +67,7 @@ public class CreateProductTest extends BaseTest {
     public void shoudlReturnExpectedProduct(){
         SoftAssert softAssert = new SoftAssert();
 
-        ApiAssertions.softAssertNotNull(softAssert,"id", actualProduct);
+        ApiAssertions.softAssertNotNull(softAssert,"id", actualProduct.getId());
         ApiAssertions.softAssertField(softAssert, "price", actualProduct.getPrice(), bodyRequest.getPrice());
         ApiAssertions.softAssertField(softAssert, "category", actualProduct.getCategory(), bodyRequest.getCategory());
         ApiAssertions.softAssertField(softAssert, "description", actualProduct.getDescription(), bodyRequest.getDescription());

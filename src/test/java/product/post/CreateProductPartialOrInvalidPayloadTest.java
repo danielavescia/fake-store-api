@@ -33,7 +33,7 @@ public class CreateProductPartialOrInvalidPayloadTest extends BaseTest{
         Product actualProduct = response.as(Product.class);
         
         ApiAssertions.assertStatusCode(response, 201, scenario);
-        ApiAssertions.softAssertNotNull(softAssert, "id", actualProduct);
+        ApiAssertions.softAssertNotNull(softAssert, "id", actualProduct.getId());
         softAssert.assertAll();
     }
 }
