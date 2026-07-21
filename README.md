@@ -143,9 +143,9 @@ O campo `rating` não está documentado nos schemas de resposta de:
 
 Porém, esse campo é retornado pela API:
 
-```json
 {
-  "rating": {
+  "rating": 
+  {
     "rate": 4.5,
     "count": 120
   }
