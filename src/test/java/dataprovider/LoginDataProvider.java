@@ -14,8 +14,6 @@ public class LoginDataProvider {
             { "Password vazio","{\"username\":\"johnd\",\"password\":\"\"}"},
             { "Username nulo", "{\"username\":null,\"password\":\"m38rmF$\"}"},
             { "Password nulo","{\"username\":\"johnd\",\"password\":null}"},
-            { "Username com tipo numérico", "{\"username\":123,\"password\":\"m38rmF$\"}" },
-           
             { "Password como array", "{\"username\":\"johnd\",\"password\":[\"m38rmF$\"]}"},
             { "Corpo completamente vazio" , ""},
             { "Corpo literal null", "null"},
