@@ -7,12 +7,12 @@
 
     <test name="ProductsAPITests">
         <classes>
-            <class name="product.get.GetAllProductsTest"/>
-            <class name="product.get.GetProductsLimitTest"/>
-            <class name="product.get.GetProductsSortTest"/>
-            <class name="product.get.GetProductsLimitEdgeCasesTest"/>
-            <class name="product.get.GetProductByIdTest"/>
-            <class name="product.get.GetProductByIdEdgeCasesTest"/>
+            <class name="product.get.getAll.GetAllProductsTest"/>
+            <class name="product.get.getAll.GetProductsLimitTest"/>
+            <class name="product.get.getAll.GetProductsSortTest"/>
+            <class name="product.get.getAll.GetProductsLimitEdgeCasesTest"/>
+            <class name="product.get.getById.GetProductByIdTest"/>
+            <class name="product.get.getById.GetProductByIdEdgeCasesTest"/>
             <class name="product.post.CreateProductTest"/>
             <class name="product.post.CreateProductPartialOrInvalidPayloadTest"/>
             <class name="product.post.CreateProductBoundaryAndSecurityTest"/>
@@ -20,7 +20,7 @@
             <class name="product.put.UpdateProductPartialOrInvalidPayloadTest"/>
             <class name="product.put.UpdateProductBoundaryAndSecurityTest"/>
             <class name="product.delete.DeleteProductTest"/>
-            <class name="produc.detelete.DeleteProductValidationTest"/>
+            <class name="produc.delete.DeleteProductValidationTest"/>
         </classes>
     </test>
 </suite>

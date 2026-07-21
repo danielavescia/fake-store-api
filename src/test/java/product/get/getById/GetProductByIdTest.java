@@ -1,11 +1,13 @@
-package product.get;
+package product.get.getById;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
+import assertions.ApiAssertions;
 import base.BaseTest;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -15,9 +17,7 @@ import io.qameta.allure.Story;
 import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.testng.Assert.assertEquals;
-import static org.hamcrest.MatcherAssert.assertThat;
+/* Id é hardcoded nos testes porque API não persiste alterações */
 
 @Feature("Produtos")
 @Story("Retornar produto específico do catálago")
@@ -36,24 +36,28 @@ public class GetProductByIdTest extends BaseTest {
         product = response.as(Product.class);
     }
 
-    @Test(description = "[CO7] - GET /products/{id} deve retornar status code 200 + produto no body")
-    @Tag("C07")
+    @Test(description = "[C07] - GET /products/{id} deve retornar status code 200 + produto no body")
+    @Tag("smoke")
     @Severity(SeverityLevel.BLOCKER)
     public void shouldReturnStatusCode200(){
-       assertEquals(response.getStatusCode(),200, "Erro: Status code retornado foi: " + response.getStatusCode() + " e o esperado era 200.");
+        ApiAssertions.assertStatusCode(response, 200);
     }
 
     @Test(description = "[C08] - GET /products/{id} deve retornar produto conforme o schema")
-    @Tag("C08")
+    @Tag("smoke")
     @Severity(SeverityLevel.CRITICAL)
     public void shouldReturnProductWithValidSchema(){
-        assertThat(response.asString(), matchesJsonSchemaInClasspath("schemas/product-schema.json"));
+        ApiAssertions.assertMatchesSchema(response, "schemas/product-schema.json");
     }
 
-    @Test(description = "[CO9] - GET /products/{id} id do body é igual ao Id solicitado")
+    @Test(description = "[C09] - GET /products/{id} id do body é igual ao Id solicitado")
+    @Tag("smoke")
     @Severity(SeverityLevel.BLOCKER)
     public void shouldReturnSameId(){
         int actualId = product.getId();
-       assertEquals(actualId, 1, "Erro: id do produto retornado foi: " + actualId + " e o esperado era 1.");
+        SoftAssert softAssert = new SoftAssert();
+
+        ApiAssertions.softAssertNotNull(softAssert, "id", actualId);
+        ApiAssertions.softAssertField(softAssert, "id", actualId, 1 );
     }
 }

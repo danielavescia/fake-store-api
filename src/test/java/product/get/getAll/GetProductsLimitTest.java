@@ -1,4 +1,4 @@
-package product.get;
+package product.get.getAll;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
+import assertions.ApiAssertions;
 import base.BaseTest;
 import dataprovider.ProductDataProvider;
 import io.qameta.allure.Feature;
@@ -28,14 +29,14 @@ public class GetProductsLimitTest extends BaseTest {
 
     @Test(description = "[C05] - Deve retornar quantidade de produtos conforme o limite especificado", dataProvider = "validParamLimits", 
     dataProviderClass = ProductDataProvider.class)
-    @Tag("C05")
+    @Tag("regression")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnProductsQuantityAccordingToLimit(String limit){
 
        Response response = productClient.getProductsWithLimit(limit);
-       
-       assertEquals(response.getStatusCode(), 200);
 
+       ApiAssertions.assertStatusCode(response, 200);
+       
        List<Product> products = List.of(response.as(Product[].class));
 
        int expectedLimit = Integer.parseInt(limit);

@@ -1,4 +1,4 @@
-package product.get;
+package product.get.getAll;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
+import assertions.ApiAssertions;
+import base.BaseTest;
 import dataprovider.ProductDataProvider;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -28,19 +30,19 @@ import static org.testng.Assert.assertFalse;
 **/
 @Feature("Produtos")
 @Story("Listar Quantidade Limite de Produtos Especificado na Requisição")
-public class GetProductsLimitEdgeCasesTest {
+public class GetProductsLimitEdgeCasesTest extends BaseTest{
 
     private final ProductClient productClient = new ProductClient();
 
     @Test(description = "[C05] - Comportamento atual: API não valida limit inválido", dataProvider = "invalidParamsLimit", 
     dataProviderClass = ProductDataProvider.class)
-    @Tag("C05")
+    @Tag("regression")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnBadRequestWhenInvalidQueryParams(String limit, int expectedCount){
 
        Response response = productClient.getProductsWithLimit(limit);
        
-       assertEquals(response.getStatusCode(), 200);
+       ApiAssertions.assertStatusCode(response, 200);
 
        List<Product> products = List.of(response.as(Product[].class));
 

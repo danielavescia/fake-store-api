@@ -1,4 +1,4 @@
-package product.get;
+package product.get.getAll;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import com.db.client.product.ProductClient;
 import com.db.model.Product;
 
+import assertions.ApiAssertions;
 import base.BaseTest;
 import dataprovider.ProductDataProvider;
 import io.qameta.allure.Feature;
@@ -21,6 +22,10 @@ import io.qameta.allure.Story;
 import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 
+/*
+* Classe de teste que valida 
+* a ordenação correta dos produtos conforme solicitado (crecente ou decrescente)
+ */
 @Feature("Produtos")
 @Story("Ordenar Lista de Produtos Conforme Especificação na Requisição")
 public class GetProductsSortTest extends BaseTest{
@@ -29,12 +34,13 @@ public class GetProductsSortTest extends BaseTest{
 
     @Test(description = "[C06] - Deve retornar quantidade produtos ordenados corretamente(id)", 
     dataProvider = "sortOrders", dataProviderClass = ProductDataProvider.class)
-    @Tag("C06")
+    @Tag("regression")
     @Severity(SeverityLevel.MINOR)
     void shouldReturnProductsSorted(String sortOrder, Comparator<Integer> comparator, String orderDescription){
 
         Response response = productClient.getProductsSorted(sortOrder);
-        assertEquals(response.getStatusCode(), 200);
+        
+        ApiAssertions.assertStatusCode(response, 200);
 
         List<Product> products = List.of(response.as(Product[].class));
 

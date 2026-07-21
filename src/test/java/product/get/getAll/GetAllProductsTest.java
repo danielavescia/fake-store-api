@@ -1,4 +1,4 @@
-package product.get;
+package product.get.getAll;
 
 import java.util.HashSet;
 import java.util.List;
