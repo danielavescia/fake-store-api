@@ -253,11 +253,3 @@ O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powere
 | GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
 
 ---
-
-### GET / products/{id} retorna status code 200 para IDs inválidos e inexistentes
-O teste do cenário CO10 e C011 para `GET /products/{id}` retorna `HTTP 200 OK` quando recebe um ID inválido. 
-
-Para uma requisição com identificador inexistente ou inválido, o comportamento esperado seria retornar um status code indicando que o recurso não foi encontrado ou que a requisição é inválida, como `404 Not Found`(inexistente = `50`) ou `400 Bad Request`( inválido = `abc`, `-1`, ` 1`), dependendo da regra definida pela API.
-
-O retorno atual com `200 OK` gera ambiguidade, pois indica sucesso na operação mesmo quando nenhum produto foi localizado, dificultando o tratamento correto do cenário pelo consumidor da API.
-
