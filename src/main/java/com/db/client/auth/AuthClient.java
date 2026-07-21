@@ -10,9 +10,9 @@ import com.db.model.User;
 
 public class AuthClient {
 
-    private static final String AUTH_ENDPOINT = "/auth";
+    private static final String AUTH_ENDPOINT = "/auth/login";
 
-    @Step("Envia requisição de login para POST /auth")
+    @Step("Envia requisição de login para POST /auth/login")
     public Response login(User user){
         return given()
             .accept(ContentType.JSON)
@@ -27,7 +27,7 @@ public class AuthClient {
             .response();
     }
 
-    @Step("Envia requisição de login para POST /auth")
+    @Step("Envia requisição de login para POST /auth/login")
     public Response login(String rawBody){
         return given()
             .accept(ContentType.JSON)
