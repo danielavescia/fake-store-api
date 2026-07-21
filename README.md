@@ -130,6 +130,28 @@ Status `200` contendo no body o produto equivalente ao deletado, seguindo o sche
 
 ---
 
+## POST /auth/login
+**Endpoint:** `https://fakestoreapi.com/auth/login`
+
+### Resposta esperada
+Login com credenciais válidas deve retornar um token de autenticação no body:
+- `token`: String (JWT)
+
+
+### Cenários de Teste 
+
+
+| ID | Cenário | Status |
+|----|---------|--------|
+|C35 |Corpo da requisição como credenciais válidas| PASS |
+|C36 |Corpo da requisição como payload inválido| PASS ** |
+|C37 |Corpo da requisição como credenciais inválidas| PASS |
+
+
+** Obs: Existe um cenário que não retornou 400 (C36: "Password como array"), API responde como `201`.
+
+---
+
 # Achados do Relatório de Testes
 
 ## 1. Contrato de resposta inconsistente entre documentação e endpoints
@@ -250,8 +272,17 @@ O teste do cenário 04 está falhando porque o endpoint retorna header `X-Powere
 
 ![Teste do header falhando devido a exposição relatada no header](image.png)
 
-| | Documentado | Retorno real |
-|---|---|---|
-| GET /products | *(sem exposição de tecnologia)* | Header `X-Powered-By: Express` presente |
-
 ---
+
+## 7. Password aceita array e retorna `201 Created` como se fosse um login válido
+
+O endpoint `POST /auth` não valida o **tipo** do campo `password`. Ao enviar `password`(C36) como um array (`["m38rmF$"]`), em vez de uma `String`, a API responde `201 Created` — o mesmo status de um login bem-sucedido — em vez de rejeitar a requisição.
+![Retorno 201 para password num array](image-5.png)
+
+## Resumo - Testes com falhas conhecidas
+Atualmente existem dois testes que falham propositalmente, porque documentam um comportamento real da API que diverge do esperado. Não são bugs no código dos testes, mas sim defeitos da aplicação.
+
+C04 - Get /products - Header X Powered-By - presente
+C36 - POST auth/login - Cenário com password enviado como array
+
+![Failures](image-6.png)
