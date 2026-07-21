@@ -233,13 +233,15 @@ A validação evita operações inconsistentes e facilita o tratamento de erros 
 
 A API **não trata valores inválidos de `limit` com status code apropriado (`400 Bad Request`)**. Todos os cenários abaixo retornam `200 OK`, mesmo com valores fora do domínio esperado:
 
+Valores inválidos deveriam retornar mensagem de erro específica para o problema relacionado ao campo e status code `400 BAD REQUEST`
+
 | Valor enviado | Status Code | Itens retornados | Comportamento observado |
 |---|---|---|---|
 | `limit=0` | 200 | 20 | Parâmetro ignorado — retorna todos os produtos |
 | `limit=-1` | 200 | 19 | Valor negativo aplicado literalmente (comportamento tipo `slice(0, -1)`) |
 | `limit=abc` | 200 | 20 | Parâmetro não numérico ignorado — retorna valor padrão |
 
-Valores inválidos deveriam retornar mensagem de erro específica para o problema relacionado ao campo e status code `400 BAD REQUEST`
+
 ---
 
 ## 6. Vazamento de informação via header X-Powered-By
