@@ -79,6 +79,7 @@ public class CreateProductTest extends BaseTest {
 
     @Test(description = "[C13] - POST /products deve retornar response conforme schema")
     @Tag("regression")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldReturnProductWithValidSchema(){
         ApiAssertions.assertMatchesSchema(response, "schemas/product-without-rating-schema.json");
     }

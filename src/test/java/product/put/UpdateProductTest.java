@@ -63,7 +63,7 @@ public class UpdateProductTest extends BaseTest{
     public void shoudlReturnExpectedProduct(){
         SoftAssert softAssert = new SoftAssert();
 
-        ApiAssertions.softAssertNotNull(softAssert,"id", actualProduct);
+        ApiAssertions.softAssertNotNull(softAssert,"id", actualProduct.getId());
         ApiAssertions.softAssertField(softAssert, "price", actualProduct.getPrice(), bodyRequest.getPrice());
         ApiAssertions.softAssertField(softAssert, "category", actualProduct.getCategory(), bodyRequest.getCategory());
         ApiAssertions.softAssertField(softAssert, "description", actualProduct.getDescription(), bodyRequest.getDescription());
@@ -75,6 +75,7 @@ public class UpdateProductTest extends BaseTest{
 
     @Test(description = "[C20] - PUT /products deve retornar response conforme schema")
     @Tag("regression")
+      @Severity(SeverityLevel.MINOR)
     public void shouldReturnProductWithValidSchema(){
         ApiAssertions.assertMatchesSchema(response, "schemas/product-without-rating-schema.json");
     }
